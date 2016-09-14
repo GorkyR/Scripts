@@ -1,0 +1,1 @@
+@for /f "tokens=4,6,7,10" %%a in ('taskkill /f /im %1.exe') do @echo %%a =^> %%b: %%c %%d
