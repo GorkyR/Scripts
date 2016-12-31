@@ -1,9 +1,10 @@
 // ==UserScript==
-// @name         Hide Scores
-// @version      0.1
+// @name         Reddit | Scores hidden
+// @version      0.2
 // @description  Hides scores
 // @author       GorkyR
 // @match        https://*.reddit.com/*
+// @run-at       document-start
 // ==/UserScript==
 
 /*function getElements(nodeList)
