@@ -2,7 +2,7 @@
 // @name         Soundcloud | Expose artwork image
 // @version      0.3
 // @author       GorkyR
-// @match        https://soundcloud.com/*
+// @match        https://soundcloud.com/*/*
 // ==/UserScript==
 
 (function() {
