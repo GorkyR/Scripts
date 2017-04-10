@@ -1,7 +1,6 @@
 // ==UserScript==
 // @name         Reddit | Sort random
-// @namespace    http://github.com/GorkyR
-// @version      0.2
+// @version      0.3
 // @description  Forces random sorting of comments
 // @author       GorkyR
 // @match        *://*.reddit.com/*/comments/*

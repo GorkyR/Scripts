@@ -1,7 +1,6 @@
 // ==UserScript==
 // @name         * | Enable interaction
-// @namespace    http://github.com/GorkyR
-// @version      0.2
+// @version      0.3
 // @description  Re-enables context menu and text selection
 // @author       GorkyR
 // @match        *://*/*
