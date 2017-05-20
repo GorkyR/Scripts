@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         Basic Cookie Mod
+// @name         Cookie Clicker | Basic Cookie Mod
 // @version      0.9
 // @author       GorkyR
 // @include      http://orteil.dashnet.org/cookieclicker/
