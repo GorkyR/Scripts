@@ -21,7 +21,7 @@ var goldenSound = function () {
 };
 var timeKeep = function () {
     console.log("Last active: ", GetCurrentTimeString());
-    setTimeout(timeKeep, 60000);
+    setTimeout(timeKeep, 300 * 1000);
 };
 
 // -------------------------
@@ -73,9 +73,14 @@ function GetSecondsToMake(amount) { return amount / GetCookiesPerSecond(); }
 function GetSecondsToHave(amount) { return (amount - Game.cookies) / GetCookiesPerSecond(); }
 function GetSecondsToHaveWithWrinklers(amount) { return (amount - (Game.cookies + GetWrinklersReward())) / GetCookiesPerSecondWithWrinklers(); }
 
-function GetPrestigeExtra() { return Math.floor(Game.HowMuchPrestige(Game.cookiesReset + Game.cookiesEarned + GetWrinklersReward()) - Game.prestige); }
-function GetBonusPercentageFromPrestige() { return GetPrestigeExtra() / Game.prestige * Game.heavenlyPower; }
-function GetBonusIncomeFromPrestige() { return GetBonusPercentageFromPrestige() * Game.cookiesPs; }
+function GetPrestigeExtra() {
+    var n = Game.cookiesReset + Game.cookiesEarned + GetWrinklersReward();
+    if (Game.HasUnlocked('Chocolate egg') && !Game.Has('Chocolate egg'))
+        n += (Game.cookies + GetWrinklersReward()) * 0.05;
+    return Math.floor(Game.HowMuchPrestige(n) - Game.prestige);
+}
+function GetBonusIncomeFromPrestigePercentage() { return GetPrestigeExtra() / Game.prestige; }
+function GetBonusIncomeFromPrestige() { return GetBonusIncomeFromPrestigePercentage() * Game.cookiesPs; }
 
 function PopAllWrinklers() { for (var i in Game.wrinklers) Game.wrinklers[i].hp = 0; }
 
@@ -205,7 +210,7 @@ var buyTimerInterval = setInterval(
 
                         if (GetPrestigeExtra() > 0) {
                             var prestigeInfo = listing();
-                            prestigeInfo.innerHTML = '<b>Bonus income after reset:</b> ' + Beautify(GetBonusIncomeFromPrestige()) + ' (' + Math.floor(GetBonusPercentageFromPrestige() * 10000) / 100 + '%)';
+                            prestigeInfo.innerHTML = '<b>Bonus income after reset:</b> ' + Beautify(GetBonusIncomeFromPrestige()) + ' (' + Math.floor(GetBonusIncomeFromPrestigePercentage() * 10000) / 100 + '%)';
                             generalStatistics.insertBefore(prestigeInfo, gSc(n--));
                         }
 
