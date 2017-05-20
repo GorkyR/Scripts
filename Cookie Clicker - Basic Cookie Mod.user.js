@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Cookie Clicker | Basic Cookie Mod
-// @version      0.9
+// @version      0.10
 // @author       GorkyR
 // @include      http://orteil.dashnet.org/cookieclicker/
 // @grant        none
@@ -207,6 +207,13 @@ var buyTimerInterval = setInterval(
                             var prestigeInfo = listing();
                             prestigeInfo.innerHTML = '<b>Bonus income after reset:</b> ' + Beautify(GetBonusIncomeFromPrestige()) + ' (' + Math.floor(GetBonusPercentageFromPrestige() * 10000) / 100 + '%)';
                             generalStatistics.insertBefore(prestigeInfo, gSc(n--));
+                        }
+
+                        if (Game.HasUnlocked('Chocolate egg') && !Game.Has('Chocolate egg'))
+                        {
+                            var chocoInfo = listing();
+                            chocoInfo.innerHTML = '<b>Reward of "Chocolate egg":</b> ' + Beautify(Game.cookies * 0.05);
+                            generalStatistics.insertBefore(chocoInfo, gSc(n--));
                         }
 
                         generalStatistics.insertBefore(br(), gSc(n--));
