@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Cookie Clicker | Basic Cookie Mod
-// @version      0.14
+// @version      0.15
 // @author       GorkyR
 // @include      http://orteil.dashnet.org/cookieclicker/
 // @grant        none
@@ -82,7 +82,7 @@ function PopAllWrinklers() { for (var i in Game.wrinklers) Game.wrinklers[i].hp 
 
 // -------------------------
 
-var tooltipFunc = function () {
+var newTooltipFunc = function () {
     var me = this;
     var desc = me.desc;
     var name = me.name;
@@ -115,7 +115,7 @@ var tooltipFunc = function () {
         '<div class="line"></div><b>' + (sleft > 0 ? GetTimeString(sleft) : "Done") + (GetNumberOfWrinklers() > 0 ? '</b><br><b style="color: red;">' + (sleftw > 0 ? GetTimeString(sleftw) : 'Done') : '') + '</b></div>';
 };
 
-function updateAscencionTooltip() {
+var newAscencionTooltip = function () {
     var chipsOwned = Game.HowMuchPrestige(Game.cookiesReset);
     var ascendNowToOwn = Math.floor(Game.HowMuchPrestige(Game.cookiesReset + Game.cookiesEarned));
     var ascendNowToGet = ascendNowToOwn - Math.floor(chipsOwned);
@@ -148,15 +148,15 @@ var buyTimerInterval = setInterval(
             //goldenSound(); // Un-comment for golden cookie sound
 
             for (var i = 0; i < Game.ObjectsById.length; i++)
-                Game.ObjectsById[i].tooltip = tooltipFunc;
+                Game.ObjectsById[i].tooltip = newTooltipFunc;
 
             var realCrate = Game.crate;
             var realGameLogic = Game.Logic;
             var realUpdateMenu = Game.UpdateMenu;
             Game.Logic = function () {
                 realGameLogic();
-                if ((Game.T - 1) % 15 === 0) updateAscencionTooltip();
-                if (Game.T % 9000 === 0) console.log("Last active: ", GetCurrentTimeString());
+                if ((Game.T - 1) % 15 === 0) newAscencionTooltip();
+                if (Game.T % 9000 === 0) console.log("Last active:", GetCurrentTimeString());
             };
             Game.crate = function (me, context, forceClickStr, id, asFunction) {
                 if (asFunction) {
