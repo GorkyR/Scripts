@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Cookie Clicker | Basic Cookie Mod
-// @version      0.12
+// @version      0.13
 // @author       GorkyR
 // @include      http://orteil.dashnet.org/cookieclicker/
 // @grant        none
@@ -18,10 +18,6 @@ var goldenSound = function () {
     }
     else GCOn = false;
     setTimeout(goldenSound, 500);
-};
-var timeKeep = function () {
-    console.log("Last active: ", GetCurrentTimeString());
-    setTimeout(timeKeep, 300 * 1000);
 };
 
 // -------------------------
@@ -149,7 +145,6 @@ function updateAscencionTooltip() {
 var buyTimerInterval = setInterval(
     function () {
         if (typeof Game.ready != 'undefined' && Game.ready) {
-            timeKeep();
             //goldenSound(); // Un-comment for golden cookie sound
 
             for (var i = 0; i < Game.ObjectsById.length; i++)
@@ -161,6 +156,7 @@ var buyTimerInterval = setInterval(
             Game.Logic = function () {
                 realGameLogic();
                 if ((Game.T - 1) % 15 === 0) updateAscencionTooltip();
+                if (Game.T % 9000) console.log("Last active: ", GetCurrentTimeString());
             };
             Game.crate = function (me, context, forceClickStr, id, asFunction) {
                 if (asFunction) {
