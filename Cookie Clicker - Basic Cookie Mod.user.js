@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Cookie Clicker | Basic Cookie Mod
-// @version      0.13
+// @version      0.14
 // @author       GorkyR
 // @include      http://orteil.dashnet.org/cookieclicker/
 // @grant        none
@@ -156,7 +156,7 @@ var buyTimerInterval = setInterval(
             Game.Logic = function () {
                 realGameLogic();
                 if ((Game.T - 1) % 15 === 0) updateAscencionTooltip();
-                if (Game.T % 9000) console.log("Last active: ", GetCurrentTimeString());
+                if (Game.T % 9000 === 0) console.log("Last active: ", GetCurrentTimeString());
             };
             Game.crate = function (me, context, forceClickStr, id, asFunction) {
                 if (asFunction) {
