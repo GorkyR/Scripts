@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Cookie Clicker | Basic Cookie Mod
-// @version      0.11
+// @version      0.12
 // @author       GorkyR
 // @include      http://orteil.dashnet.org/cookieclicker/
 // @grant        none
@@ -172,7 +172,7 @@ var buyTimerInterval = setInterval(
                             '<div class="icon" style="float:left;margin-left:-8px;margin-top:-8px;background-position:' + (-me.icon[0] * 48) + 'px ' + (-me.icon[1] * 48) + 'px;"></div>' + price +
                             '<div class="name">' + me.name + '</div>' +
                             '<div class="line"></div><div class="description">' + me.desc + '</div>' +
-                            '<div class="line"></div><b>' + (sleft > 0 ? GetTimeString(sleft) : 'Done') + (GetNumberOfWrinklers() > 0 ? '<br>' + (sleftw > 0 ? GetTimeString(sleftw) : 'Done') : '') + '</b></div>';
+                            '<div class="line"></div><b>' + (sleft > 0 ? GetTimeString(sleft) : 'Done') + (GetNumberOfWrinklers() > 0 ? '</b><br><b style="color: red">' + (sleftw > 0 ? GetTimeString(sleftw) : 'Done') : '') + '</b></div>';
                     };
                 }
                 else
