@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Cookie Clicker | Basic Cookie Mod
-// @version      0.17
+// @version      0.18
 // @author       GorkyR
 // @include      http://orteil.dashnet.org/cookieclicker/
 // @grant        none
@@ -20,7 +20,7 @@ var goldenSound = function () {
     setTimeout(goldenSound, 500);
 };
 
-var EasterEggsCommon  = ["Chicker egg", "Duck egg", "Turkey egg", "Quail egg", "Robin egg", "Ostrich egg", "Cassowary egg", "Salmon roe", "Frogspawn", "Shark egg", "Turtle egg", "Ant larva"];
+var EasterEggsCommon  = ["Chicken egg", "Duck egg", "Turkey egg", "Quail egg", "Robin egg", "Ostrich egg", "Cassowary egg", "Salmon roe", "Frogspawn", "Shark egg", "Turtle egg", "Ant larva"];
 var EasterEggsRare    = ["Golden goose egg", "Faberge egg", "Wrinklerspawn", "Cookie egg", "Omelette", "Chocolate egg", "Century egg", "egg"];
 var HalloweenCookies  = ["Skull cookies", "Ghost cookies", "Bat cookies", "Slime cookies", "Pumpkin cookies", "Eyeball cookies", "Spider cookies"];
 var ChristmasBiscuits = ["Christmas tree biscuits", "Snowflake biscuits", "Snowman biscuits", "Holly biscuits", "Candy cane biscuits", "Bell biscuits", "Present biscuits"];
@@ -235,10 +235,11 @@ var buyTimerInterval = setInterval(
                             var areUnlocked = function (array) {
                                 var n = 0;
                                 for (var i in array)
-                                    if (Game.HasUnlocked(i))
-                                        n++;
+                                    n += Game.HasUnlocked(array[i]);
                                 return n;
                             }
+
+                            specialStatistics.insertBefore(br(), sSc(2));
 
                             switch(Game.season)
                             {
@@ -247,12 +248,23 @@ var buyTimerInterval = setInterval(
                                     var seasonInfo2 = listing();
                                     seasonInfo1.innerHTML = '<b>Common easter eggs unlocked:</b> ' + areUnlocked(EasterEggsCommon) + '/' + EasterEggsCommon.length;
                                     seasonInfo2.innerHTML = '<b>Rare easter eggs unlocked:</b> ' + areUnlocked(EasterEggsRare) + '/' + EasterEggsRare.length;
-
-                                    specialStatistics.insertBefore(br(), sSc(2));
                                     specialStatistics.insertBefore(seasonInfo2, sSc(2));
                                     specialStatistics.insertBefore(seasonInfo1, seasonInfo2);
                                     break;
                                 case "valentines":
+                                    var seasonInfo = listing();
+                                    seasonInfo.innerHTML = '<b>Valentine\'s day biscuits unlocked:</b> ' + areUnlocked(ValentineBiscuits) + '/' + ValentineBiscuits.length;
+                                    specialStatistics.insertBefore(seasonInfo, sSc(2));
+                                    break;
+                                case "christmas":
+                                    var seasonInfo = listing();
+                                    seasonIngo.innerHTML = '<b>Christmas biscuits unlocked:</b> ' + areUnlocked(ChristmasBiscuits) + '/' + ChristmasBiscuits.length;
+                                    specialStatistics.insertBefore(seasonInfo, sSc(2));
+                                    break;
+                                case "halloween":
+                                    var seasonInfo = listing();
+                                    seasonInfo.innerHTML = '<b>Halloween cookies unlocked:</b> ' + areUnlocked(HalloweenCookies) + '/' + HalloweenCookies.length;
+                                    specialStatistics.insertBefore(seasonInfo, sSc(2));
                                     break;
                                 default:
                                     break;
