@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Cookie Clicker | Basic Cookie Mod
-// @version      0.19
+// @version      0.20
 // @author       GorkyR
 // @include      http://orteil.dashnet.org/cookieclicker/
 // @grant        none
@@ -239,7 +239,7 @@ var buyTimerInterval = setInterval(
                                 return n;
                             }
 
-                            specialStatistics.insertBefore(br(), sSc(2));
+                            specialStatistics.insertBefore(br(), sSc(3));
 
                             switch(Game.season)
                             {
@@ -248,29 +248,29 @@ var buyTimerInterval = setInterval(
                                     var seasonInfo2 = listing();
                                     seasonInfo1.innerHTML = '<b>Common easter eggs unlocked:</b> ' + areUnlocked(EasterEggsCommon) + '/' + EasterEggsCommon.length;
                                     seasonInfo2.innerHTML = '<b>Rare easter eggs unlocked:</b> ' + areUnlocked(EasterEggsRare) + '/' + EasterEggsRare.length;
-                                    specialStatistics.insertBefore(seasonInfo2, sSc(2));
+                                    specialStatistics.insertBefore(seasonInfo2, sSc(3));
                                     specialStatistics.insertBefore(seasonInfo1, seasonInfo2);
                                     break;
                                 case "valentines":
                                     var seasonInfo = listing();
                                     seasonInfo.innerHTML = '<b>Valentine\'s day biscuits unlocked:</b> ' + areUnlocked(ValentineBiscuits) + '/' + ValentineBiscuits.length;
-                                    specialStatistics.insertBefore(seasonInfo, sSc(2));
+                                    specialStatistics.insertBefore(seasonInfo, sSc(3));
                                     break;
                                 case "christmas":
                                     var seasonInfo = listing();
                                     seasonIngo.innerHTML = '<b>Christmas biscuits unlocked:</b> ' + areUnlocked(ChristmasBiscuits) + '/' + ChristmasBiscuits.length;
-                                    specialStatistics.insertBefore(seasonInfo, sSc(2));
+                                    specialStatistics.insertBefore(seasonInfo, sSc(3));
                                     break;
                                 case "halloween":
                                     var seasonInfo = listing();
                                     seasonInfo.innerHTML = '<b>Halloween cookies unlocked:</b> ' + areUnlocked(HalloweenCookies) + '/' + HalloweenCookies.length;
-                                    specialStatistics.insertBefore(seasonInfo, sSc(2));
+                                    specialStatistics.insertBefore(seasonInfo, sSc(3));
                                     break;
                                 default:
                                     break;
                             }
                         
-                            specialStatistics.insertBefore(br(), sSc(2));
+                            specialStatistics.insertBefore(br(), sSc(3));
 
                         // ----- ------- -----
 
