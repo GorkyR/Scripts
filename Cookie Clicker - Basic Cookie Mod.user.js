@@ -258,7 +258,7 @@ var buyTimerInterval = setInterval(
                                     break;
                                 case "christmas":
                                     var seasonInfo = listing();
-                                    seasonIngo.innerHTML = '<b>Christmas biscuits unlocked:</b> ' + areUnlocked(ChristmasBiscuits) + '/' + ChristmasBiscuits.length;
+                                    seasonInfo.innerHTML = '<b>Christmas biscuits unlocked:</b> ' + areUnlocked(ChristmasBiscuits) + '/' + ChristmasBiscuits.length;
                                     specialStatistics.insertBefore(seasonInfo, sSc(3));
                                     break;
                                 case "halloween":
