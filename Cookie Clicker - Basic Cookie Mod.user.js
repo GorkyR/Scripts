@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Cookie Clicker | Basic Cookie Mod
-// @version      0.16
+// @version      0.17
 // @author       GorkyR
 // @include      http://orteil.dashnet.org/cookieclicker/
 // @grant        none
@@ -232,10 +232,10 @@ var buyTimerInterval = setInterval(
 
                             var specialStatistics = menu.children[3];
                             var sSc = function (n) { return specialStatistics.children[n >= 0? n : (specialStatistics.children.length + n)]; }
-                            var leftToUnlock = function (array) {
+                            var areUnlocked = function (array) {
                                 var n = 0;
                                 for (var i in array)
-                                    if (!Game.HasUnlocked(i))
+                                    if (Game.HasUnlocked(i))
                                         n++;
                                 return n;
                             }
@@ -245,8 +245,8 @@ var buyTimerInterval = setInterval(
                                 case "easter":
                                     var seasonInfo1 = listing();
                                     var seasonInfo2 = listing();
-                                    seasonInfo1.innerHTML = '<b>Common easter eggs left to unlock:</b> ' + leftToUnlock(EasterEggsCommon);
-                                    seasonInfo2.innerHTML = '<b>Rare easter eggs left to unlock:</b> ' + leftToUnlock(EasterEggsRare);
+                                    seasonInfo1.innerHTML = '<b>Common easter eggs unlocked:</b> ' + areUnlocked(EasterEggsCommon) + '/' + EasterEggsCommon.length;
+                                    seasonInfo2.innerHTML = '<b>Rare easter eggs unlocked:</b> ' + areUnlocked(EasterEggsRare) + '/' + EasterEggsRare.length;
 
                                     specialStatistics.insertBefore(br(), sSc(2));
                                     specialStatistics.insertBefore(seasonInfo2, sSc(2));
