@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Cookie Clicker | Basic Cookie Mod
-// @version      0.15
+// @version      0.16
 // @author       GorkyR
 // @include      http://orteil.dashnet.org/cookieclicker/
 // @grant        none
@@ -19,6 +19,12 @@ var goldenSound = function () {
     else GCOn = false;
     setTimeout(goldenSound, 500);
 };
+
+var EasterEggsCommon  = ["Chicker egg", "Duck egg", "Turkey egg", "Quail egg", "Robin egg", "Ostrich egg", "Cassowary egg", "Salmon roe", "Frogspawn", "Shark egg", "Turtle egg", "Ant larva"];
+var EasterEggsRare    = ["Golden goose egg", "Faberge egg", "Wrinklerspawn", "Cookie egg", "Omelette", "Chocolate egg", "Century egg", "egg"];
+var HalloweenCookies  = ["Skull cookies", "Ghost cookies", "Bat cookies", "Slime cookies", "Pumpkin cookies", "Eyeball cookies", "Spider cookies"];
+var ChristmasBiscuits = ["Christmas tree biscuits", "Snowflake biscuits", "Snowman biscuits", "Holly biscuits", "Candy cane biscuits", "Bell biscuits", "Present biscuits"];
+var ValentineBiscuits = ["Pure heart biscuits", "Ardent heart biscuits", "Sour heart biscuits", "Weeping heart biscuits", "Golden heart biscuits", "Eternal heart biscuits"];
 
 // -------------------------
 
@@ -182,42 +188,79 @@ var buyTimerInterval = setInterval(
                     if (menu.children[1].innerText == "Statistics") {
                         var n = -2;
                         var br = function () { return document.createElement('br'); };
-                        var generalStatistics = menu.children[2];
-                        var gSc = function (n) { return generalStatistics.children[n >= 0 ? n : (generalStatistics.children.length + n)]; };
                         var listing = function () {
                             var l = document.createElement('div');
                             l.classList = 'listing';
                             return l;
                         };
 
-                        generalStatistics.insertBefore(br(), gSc(8));
-                        generalStatistics.insertBefore(br(), gSc(10));
+                        // ----- General -----
 
-                        if (GetNumberOfWrinklers() > 0) {
-                            var wrinklerInfo = listing();
-                            wrinklerInfo.innerHTML = '<b>Wrinklers reward:</b> ' + Beautify(GetWrinklersReward()) + ' <a class="option">Pop all</a>';
-                            wrinklerInfo.children[1].onclick = PopAllWrinklers;
-                            generalStatistics.insertBefore(wrinklerInfo, gSc(n--));
+                            var generalStatistics = menu.children[2];
+                            var gSc = function (n) { return generalStatistics.children[n >= 0 ? n : (generalStatistics.children.length + n)]; };
 
-                            var wrinklerIncomeInfo = listing();
-                            wrinklerIncomeInfo.innerHTML = '<b>Cookies per second (including wrinklers):</b> ' + Beautify(GetCookiesPerSecondWithWrinklers()) + ' (x' + Math.floor(GetEffectOfWrinklers() * 1000) / 1000 + ')';
-                            generalStatistics.insertBefore(wrinklerIncomeInfo, gSc(10));
-                        }
+                            generalStatistics.insertBefore(br(), gSc(8));
+                            generalStatistics.insertBefore(br(), gSc(10));
 
-                        if (GetPrestigeExtra() > 0) {
-                            var prestigeInfo = listing();
-                            prestigeInfo.innerHTML = '<b>Bonus income after reset:</b> ' + Beautify(GetBonusIncomeFromPrestige()) + ' (' + Math.floor(GetBonusIncomeFromPrestigePercentage() * 10000) / 100 + '%)';
-                            generalStatistics.insertBefore(prestigeInfo, gSc(n--));
-                        }
+                            if (GetNumberOfWrinklers() > 0) {
+                                var wrinklerInfo = listing();
+                                wrinklerInfo.innerHTML = '<b>Wrinklers reward:</b> ' + Beautify(GetWrinklersReward()) + ' <a class="option">Pop all</a>';
+                                wrinklerInfo.children[1].onclick = PopAllWrinklers;
+                                generalStatistics.insertBefore(wrinklerInfo, gSc(n--));
 
-                        if (Game.HasUnlocked('Chocolate egg') && !Game.Has('Chocolate egg'))
-                        {
-                            var chocoInfo = listing();
-                            chocoInfo.innerHTML = '<b>Reward of "Chocolate egg":</b> ' + Beautify(Game.cookies * 0.05);
-                            generalStatistics.insertBefore(chocoInfo, gSc(n--));
-                        }
+                                var wrinklerIncomeInfo = listing();
+                                wrinklerIncomeInfo.innerHTML = '<b>Cookies per second (including wrinklers):</b> ' + Beautify(GetCookiesPerSecondWithWrinklers()) + ' (x' + Math.floor(GetEffectOfWrinklers() * 1000) / 1000 + ')';
+                                generalStatistics.insertBefore(wrinklerIncomeInfo, gSc(10));
+                            }
 
-                        generalStatistics.insertBefore(br(), gSc(n--));
+                            if (GetPrestigeExtra() > 0) {
+                                var prestigeInfo = listing();
+                                prestigeInfo.innerHTML = '<b>Bonus income after reset:</b> ' + Beautify(GetBonusIncomeFromPrestige()) + ' (' + Math.floor(GetBonusIncomeFromPrestigePercentage() * 10000) / 100 + '%)';
+                                generalStatistics.insertBefore(prestigeInfo, gSc(n--));
+                            }
+
+                            if (Game.HasUnlocked('Chocolate egg') && !Game.Has('Chocolate egg'))
+                            {
+                                var chocoInfo = listing();
+                                chocoInfo.innerHTML = '<b>Reward of "Chocolate egg":</b> ' + Beautify(Game.cookies * 0.05);
+                                generalStatistics.insertBefore(chocoInfo, gSc(n--));
+                            }
+
+                            generalStatistics.insertBefore(br(), gSc(n--));
+
+                        // ----- Special -----
+
+                            var specialStatistics = menu.children[3];
+                            var sSc = function (n) { return specialStatistics.children[n >= 0? n : (specialStatistics.children.length + n)]; }
+                            var leftToUnlock = function (array) {
+                                var n = 0;
+                                for (var i in array)
+                                    if (!Game.HasUnlocked(i))
+                                        n++;
+                                return n;
+                            }
+
+                            switch(Game.season)
+                            {
+                                case "easter":
+                                    var seasonInfo1 = listing();
+                                    var seasonInfo2 = listing();
+                                    seasonInfo1.innerHTML = '<b>Common easter eggs left to unlock:</b> ' + leftToUnlock(EasterEggsCommon);
+                                    seasonInfo2.innerHTML = '<b>Rare easter eggs left to unlock:</b> ' + leftToUnlock(EasterEggsRare);
+
+                                    specialStatistics.insertBefore(br(), sSc(2));
+                                    specialStatistics.insertBefore(seasonInfo2, sSc(2));
+                                    specialStatistics.insertBefore(seasonInfo1, seasonInfo2);
+                                    break;
+                                case "valentines":
+                                    break;
+                                default:
+                                    break;
+                            }
+                        
+                            specialStatistics.insertBefore(br(), sSc(2));
+
+                        // ----- ------- -----
 
                         if (again < 4)
                             setTimeout(function () { Game.UpdateMenu(again + 1); }, 1000);
