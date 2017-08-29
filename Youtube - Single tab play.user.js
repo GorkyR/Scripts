@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Youtube | Single tab play
-// @version      0.4
+// @version      0.5
 // @description  Only one Youtube tab will play at a time.
 // @author       Gorky Rojas
 // @match        *://www.youtube.com/*
@@ -15,7 +15,7 @@ var onPlaying = function() {
 };
 function defineVideoElement(){
 	var vids = document.getElementsByTagName('video');
-	if (v.length){
+	if (vids.length){
 		video = vids[vids.length - 1];
 		video.onplaying = onPlaying;
 	}
