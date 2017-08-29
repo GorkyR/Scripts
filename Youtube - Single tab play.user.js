@@ -1,24 +1,39 @@
 // ==UserScript==
 // @name         Youtube | Single tab play
-// @version      0.3
+// @version      0.4
 // @description  Only one Youtube tab will play at a time.
-// @author       GorkyR
-// @match        *://www.youtube.com/watch?v=*
+// @author       Gorky Rojas
+// @match        *://www.youtube.com/*
 // ==/UserScript==
 
-var videos = document.getElementsByTagName('video');
+function s4() { return Math.floor((1+Math.random()) * 0x10000).toString(16).substring(1); }
+var GUID = s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
 
-function StorageHandler(evt){
-    var key = evt.key;
-    if (key == 'playing' && localStorage.getItem('playing') !== document.title)
-        for (var i = 0; i < videos.length; i++)
-            videos[i].pause();
+var video;
+var onPlaying = function() {
+	localStorage.setItem('playing', GUID);
+};
+function defineVideoElement(){
+	var vids = document.getElementsByTagName('video');
+	if (v.length){
+		video = vids[vids.length - 1];
+		video.onplaying = onPlaying;
+	}
 }
 
-function PlayingHandler(event){
-    localStorage.setItem('playing', document.title);
-}
+var onStorage = function(event){
+	key = event.key;
+	if (key == 'playing' && localStorage.playing !== GUID){
+		defineVideoElement();
+		video.pause();
+	}
+};
 
-for (var i = 0; i < videos.length; i++)
-    videos[i].addEventListener('playing', PlayingHandler, true);
-window.addEventListener('storage', StorageHandler, true);
+var videoChangeObserver = new MutationObserver(function (mutations) { defineVideoElement(); });
+var observerConfig = { characterData: true, subtree: true };
+
+//////////////////////////////////////////////////////////////////////////////////////
+
+defineVideoElement();
+window.addEventListener('storage', onStorage, true);
+videoChangeObserver.observe(document.body, observerConfig);
