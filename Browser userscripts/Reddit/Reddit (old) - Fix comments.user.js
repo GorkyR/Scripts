@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         Reddit | Fix comments
+// @name         Fix comments
 // @version      0.0.11
 // @description  Blocks or rewrites annoying comments
 // @author       GorkyR

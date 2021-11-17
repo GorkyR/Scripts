@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         Soundcloud | Expose artwork image
+// @name         Expose artwork image
 // @version      0.5
 // @author       GorkyR
 // @match        https://soundcloud.com/*

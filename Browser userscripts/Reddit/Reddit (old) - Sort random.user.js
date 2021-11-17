@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         Reddit | Sort random
+// @name         Sort random
 // @version      0.3
 // @description  Forces random sorting of comments
 // @author       GorkyR

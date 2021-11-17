@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         Reddit | Max context
+// @name         Max context
 // @version      0.3
 // @description  Changes the context of the comment to 9 (maximum is 8)
 // @author       GorkyR
