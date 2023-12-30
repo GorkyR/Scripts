@@ -51,9 +51,18 @@ XInput_GetStateEx(user_index)
     return 0
 }
 
-ACTION := 0
-CLICKING := false
-SWITCHING := false
+HasVal(haystack, needle) {
+    for index, value in haystack
+        if (value = needle)
+            return index
+    if !(IsObject(haystack))
+        throw Exception("Bad haystack!", -1, haystack)
+    return 0
+}
+
+ACTION := [0, 0, 0, 0]
+CLICKING := [false, false, false, false]
+SWITCHING := [false, false, false, false]
 
 XInput_Init()
 Loop {
@@ -66,13 +75,13 @@ Loop {
             trigger_left  := gamepad.trigger.left  > 128
             trigger_right := gamepad.trigger.right > 128
 
-            if gamepad.button.back and (gamepad.button.start or (ACTION and ACTION != "switch")) {
-                switch ACTION {
+            if gamepad.button.back and (gamepad.button.start or (ACTION[A_INDEX] and ACTION[A_INDEX] != "switch")) {
+                switch ACTION[A_INDEX] {
                     default:
                         if trigger_left and trigger_right {
                             SoundBeep
                             Send, {media_play_pause}
-                            ACTION := "media"
+                            ACTION[A_INDEX] := "media"
                         } else if trigger_right and gamepad.trigger.left < XINPUT_GAMEPAD_TRIGGER_THRESHOLD {
                             Send, {volume_up down}
                         } else if trigger_left and gamepad.trigger.right < XINPUT_GAMEPAD_TRIGGER_THRESHOLD {
@@ -82,13 +91,13 @@ Loop {
                         if gamepad.button.right_shoulder {
                             SoundBeep
                             Send, {alt down}{tab}
-                            ACTION := "switch"
+                            ACTION[A_INDEX] := "switch"
                         }
 
                         if gamepad.button.left_shoulder {
                             SoundBeep
                             Send, !{F4}
-                            ACTION := "closing"
+                            ACTION[A_INDEX] := "closing"
                         }
 
                         if gamepad.button.x {
@@ -98,34 +107,34 @@ Loop {
 
                         if right_thumb_active or gamepad.button.right_thumb {
                             SoundBeep
-                            ACTION := "Mouse"
+                            ACTION[A_INDEX] := "Mouse"
                         }
                     case "switch":
                         if gamepad.button.right_shoulder {
-                            if !SWITCHING
+                            if !SWITCHING[A_INDEX]
                                 Send, {tab}
-                            SWITCHING := true
+                            SWITCHING[A_INDEX] := true
                         } else
-                            SWITCHING := false
+                            SWITCHING[A_INDEX] := false
                     case "closing":
                         if !gamepad.button.b
-                            ACTION := 0
+                            ACTION[A_INDEX] := 0
                     case "media":
                         if !trigger_left or !trigger_right
-                            ACTION := 0
+                            ACTION[A_INDEX] := 0
                     case "mouse":
-                        if !CLICKING {
+                        if !CLICKING[A_INDEX] {
                             if gamepad.button.right_shoulder
                                 Click, down
                             if gamepad.button.left_shoulder
                                 Click, down right
                         } else {
-                            if (CLICKING = "left" and !gamepad.button.right_shoulder)
+                            if (CLICKING[A_INDEX] = "left" and !gamepad.button.right_shoulder)
                                 Click, up
-                            else if (CLICKING = "right" and !gamepad.button.left_shoulder)
+                            else if (CLICKING[A_INDEX] = "right" and !gamepad.button.left_shoulder)
                                 Click, up right
                         }
-                        CLICKING := gamepad.button.right_shoulder? "left" : gamepad.button.left_shoulder? "right" : false
+                        CLICKING[A_INDEX] := gamepad.button.right_shoulder? "left" : gamepad.button.left_shoulder? "right" : false
 
                         if trigger_right 
                             Click WD
@@ -141,15 +150,14 @@ Loop {
 
                         MouseMove, speed_x * (right_thumb_x > 0? 1 : -1), -speed_y * (right_thumb_y > 0? 1 : -1), 0, R
                 }
-            } else if ACTION {
-                switch ACTION {
+            } else if ACTION[A_INDEX] {
+                switch ACTION[A_INDEX] {
                     case "switch":
                         Send, {alt up}
                 }
-                ACTION := 0
-                Tooltip
+                ACTION[A_INDEX] := 0
             }
         }
     }
-    Sleep, (ACTION = "mouse"? -1 : 50)
+    Sleep, (HasVal(ACTION, "mouse")? -1 : 50)
 }
